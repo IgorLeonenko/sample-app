@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token
-  has_secure_password
 
-  validates_presence_of :name, :email, :password
+  validates_presence_of :name, :email
   validates :name, length: {maximum: 50}
   validates :email, length: {maximum: 255}, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
-  validates :password, length: { minimum: 6 }
+  has_secure_password
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   before_save { self.email = email.downcase }
 
